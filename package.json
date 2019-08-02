@@ -5,7 +5,21 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
+    "clean:android": "cd android/ && ./gradlew clean && cd .. && react-native run-android",
+    "newclear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build && rm -rf node_modules/ && npm cache clean --force && npm i",
+    "android:build": "cd android && ./gradlew assembleRelease && open './app/build/outputs/apk/'",
+    "android:install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
+    "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
+    "lint": "eslint ./App",
+    "fixcode": "eslint --fix ./App",
+    "ios": "npm run lint && react-native run-ios --simulator='iPhone X'",
+    "android": "npm run lint && react-native run-android"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "react": "16.8.6",
